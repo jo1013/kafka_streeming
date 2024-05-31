@@ -34,11 +34,11 @@
 ```bash
 git clone https://github.com/your-repository/your-project.git
 cd your-project
+```
 
 
 
 
-알겠습니다. 아래는 전체적인 구조와 데이터 플로우를 설명하고, 프로젝트 실행 방법을 단계별로 안내하겠습니다.
 
 ### 프로젝트 구조와 데이터 플로우
 
