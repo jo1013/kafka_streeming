@@ -1,0 +1,15 @@
+{
+    "name": "mysql-source-connector",
+    "config": {
+      "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+      "tasks.max": "1",
+      "connection.url": "jdbc:mysql://mysql:3306/remine000db",
+      "connection.user": "redmine000kun",
+      "connection.password": "rkunpass",
+      "table.whitelist": "orders",
+      "mode": "incrementing",
+      "incrementing.column.name": "id",
+      "topic.prefix": "mysql-",
+      "poll.interval.ms": "1000"
+    }
+  }
