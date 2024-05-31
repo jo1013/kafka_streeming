@@ -149,3 +149,8 @@ Prometheus와 Grafana가 실행된 후, Grafana 웹 인터페이스 (`http://loc
 - `env/kafka.env`: Kafka 환경 변수 파일.
 - `mysql-init/init.sql`: MySQL 초기화 스크립트.
 - `scripts/start.sh`: 프로젝트 시작 스크립트.
+
+
+### mysql init
+
+- docker exec -i kafka_streaming-mysql-1 mysql -u root -p {password} < mysql-init/init.sql

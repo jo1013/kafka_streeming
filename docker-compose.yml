@@ -30,6 +30,8 @@ services:
       MYSQL_PASSWORD: rkunpass
     ports:
       - "3307:3306"
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d  # MySQL 초기화 스크립트
 
   kafka-connect:
     image: confluentinc/cp-kafka-connect:latest
@@ -43,6 +45,9 @@ services:
       CONNECT_CONFIG_STORAGE_TOPIC: connect-configs
       CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets
       CONNECT_STATUS_STORAGE_TOPIC: connect-status
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
@@ -63,6 +68,9 @@ services:
       CONFIG_STORAGE_TOPIC: debezium-configs
       OFFSET_STORAGE_TOPIC: debezium-offsets
       STATUS_STORAGE_TOPIC: debezium-status
+      CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      STATUS_STORAGE_REPLICATION_FACTOR: 1
       KEY_CONVERTER_SCHEMAS_ENABLE: "false"
       VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
       CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
@@ -82,6 +90,9 @@ services:
 
   grafana:
     image: grafana/grafana:latest
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     ports:
       - "3000:3000"
 
@@ -93,3 +104,14 @@ services:
       KAFKA_SERVER: kafka:9092
     ports:
       - "9308:9308"
+
+  data-generator:
+    build: ./data-generator
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: redmine000kun
+      MYSQL_PASSWORD: rkunpass
+      MYSQL_DATABASE: remine000db
